@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PinnedNote InfoBar</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <span id="Header">Note:</span>
+    <span id="NoteContents"></span>
+
+    <script type="text/javascript">
+
+        function getPageInfoOnPinboard() {
+            var url = 'https://api.pinboard.in/v1/posts/get?url=' + encodeURI(safari.application.activeBrowserWindow.activeTab.url);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var posts = xhr.responseXML.getElementsByTagName('post');
+                        bookmarks = [];
+
+                        for (var i = 0; i < posts.length; i++) {
+                            var attrs = posts[i].attributes;
+                            var mark = {};
+                            for (var j = 0; j < attrs.length; j++) {
+                                mark[attrs[j].name] = attrs[j].value;
+                            }
+                        }
+
+                        if (posts.length < 1) {
+                            document.getElementById('NoteContents').innerHTML = 'You haven\'t pinned yet.';
+                        } else {
+                            document.getElementById('NoteContents').innerHTML = mark.extended;
+                        }
+                    } else {
+                        alert('PinnedPage could not log in to your Pinboard account. Please login pinboard.');
+                    }
+                }           
+            };
+            xhr.open('GET', url, true);
+            xhr.send(null);
+        }
+
+        safari.application.addEventListener('activate', getPageInfoOnPinboard, true);
+        safari.application.addEventListener('navigate', getPageInfoOnPinboard, true);
+
+    </script>
+</body>
+</html>
