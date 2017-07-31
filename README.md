@@ -1,6 +1,6 @@
 # PinnedNote
 
-PinnedNote is safari extension for display note for pages you have pinned on pinboard.
+PinnedNote is a safari extension to display note of the page you have pinned on the pinboard.
 
 ![ScreenShot 01](README%20Assets/ScreenShot01.png?raw=true)
 
